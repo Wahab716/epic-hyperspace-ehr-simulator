@@ -1,0 +1,11 @@
+@import "tailwindcss";
+
+:root { color-scheme: light; font-family: Arial, Helvetica, sans-serif; color: #203349; background: #edf1f5; }
+* { box-sizing: border-box; }
+body { margin: 0; }
+main { max-width: 800px; margin: 72px auto; padding: 32px; background: white; border: 1px solid #cbd5e1; border-top: 5px solid #225a88; border-radius: 6px; }
+h1 { font-size: clamp(1.8rem, 5vw, 2.5rem); margin: 12px 0 20px; }
+p { line-height: 1.7; }
+.eyebrow { color: #225a88; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; }
+.notice { margin-top: 32px; color: #526477; font-size: 0.875rem; }
+@media (max-width: 850px) { main { margin: 24px 16px; padding: 24px; } }
