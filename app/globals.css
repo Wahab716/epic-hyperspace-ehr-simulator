@@ -9,3 +9,7 @@ p { line-height: 1.7; }
 .eyebrow { color: #225a88; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; }
 .notice { margin-top: 32px; color: #526477; font-size: 0.875rem; }
 @media (max-width: 850px) { main { margin: 24px 16px; padding: 24px; } }
+
+.workspace-link { display: inline-block; margin-top: 16px; padding: 12px 18px; color: white; background: #225a88; border-radius: 4px; text-decoration: none; font-weight: 700; }
+.workspace-link:hover { background: #174469; }
+.workspace-link:focus-visible { outline: 3px solid #639ed0; outline-offset: 3px; }
