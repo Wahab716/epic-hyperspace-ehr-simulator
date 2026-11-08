@@ -1,27 +1,8 @@
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
 import test from 'node:test';
-import vm from 'node:vm';
 
-const source = readFileSync(new URL('../public/clinical/app.js', import.meta.url), 'utf8');
 
-function workspace() {
-  const nodes = { '#app': { innerHTML: '' }, '#overlay': { innerHTML: '' } };
-  const context = vm.createContext({
-    document: {
-      querySelector: selector => nodes[selector],
-      querySelectorAll: () => [],
-      addEventListener() {},
-    },
-    window: { print() {} },
-  });
-  // No storage or fetch globals: browsing must work without either service.
-  vm.runInContext(source, context);
-  return {
-    html: () => nodes['#app'].innerHTML,
-    run: expression => vm.runInContext(expression, context),
-  };
-}
+import { workspace } from './helpers/clinical-workspace.mjs';
 
 test('patient list opens a chart with the selected fictional identity', () => {
   const chart = workspace();
@@ -67,14 +48,3 @@ test('laboratory categories and note filters display the matching fixtures', () 
   assert.doesNotMatch(chart.html(), /◉ Hensley, Andrea/);
 });
 
-test('authoring actions cannot change read-only state', () => {
-  const chart = workspace();
-  chart.run('openPatient(0)');
-  const before = chart.run('JSON.stringify(state)');
-  for (const action of ['save-order', 'sign-note', 'pend', 'fluid', 'remove', 'lookup']) {
-    chart.run(`action(${JSON.stringify(action)})`);
-  }
-  assert.equal(chart.run('JSON.stringify(state)'), before);
-  chart.run("action('list')");
-  assert.match(chart.html(), /Patient Lists/);
-});

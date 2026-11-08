@@ -21,6 +21,3 @@ body{overflow:visible}
 .modal-wrap{overflow:auto;align-items:flex-start;padding:24px 12px}
 .modal{max-width:100%;margin:auto}
 
-/* Read-only milestone controls. */
-[aria-disabled="true"]{opacity:.45;cursor:default}
-[contenteditable="false"]{cursor:default}
