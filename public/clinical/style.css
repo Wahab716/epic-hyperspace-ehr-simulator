@@ -28,3 +28,8 @@ body{padding-bottom:48px}
 #workspace-sync[data-problem="true"]{background:#fff2d9;border-color:#c99c49}
 #workspace-sync button{font-size:12px}
 @media print{#workspace-sync{display:none}}
+
+#connected-training{position:fixed;right:12px;bottom:62px;z-index:190;width:300px;max-height:60vh;overflow:auto;background:white;border:2px solid #35a3b5;box-shadow:0 3px 12px #0003;font:12px Arial}
+#connected-training summary{padding:10px;background:#a2dfe6;cursor:pointer}
+#connected-training details>div{padding:12px}
+@media print{#connected-training{display:none}}

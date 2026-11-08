@@ -124,3 +124,30 @@ test('two simultaneous writes to one revision produce one winner', async t => {
   assert.deepEqual(responses.map(r => r.status).sort(), [200, 409]);
   assert.equal((await open(handlers, session.cookie)).data.version, 2);
 });
+
+test('connected workflows persist alongside existing commit-4 chart records', async t => {
+  const { store, handlers } = fixture(t);
+  const session = await open(handlers);
+  const owner = authenticate(new Request(url, { headers: { cookie: session.cookie } }), { secret, mode: 'local' }).owner;
+  const chart = normalizeClinical({ stickies: { '16442684': 'Commit 4 saved work' } });
+  assert.ok(store.save(owner, 1, { schemaVersion: 1, role: 'Clinician', clinical: chart }));
+  const upgraded = await open(handlers, session.cookie);
+  assert.equal(upgraded.data.state.hospital.sticky['16442684'], 'Commit 4 saved work');
+  const send = async (version, action, payload) => post(handlers, session.cookie, { version, action: 'workflow', payload: { action, payload } });
+  assert.equal((await send(2, 'role', { role: 'Registrar' })).status, 200);
+  assert.equal((await send(3, 'register', { name: 'API, Practice', dob: '1992-05-04', allergies: 'Unknown' })).status, 200);
+  const saved = (await open(handlers, session.cookie)).data;
+  assert.ok(saved.state.hospital.patients.some(p => p.name === 'API, Practice'));
+  assert.deepEqual(saved.state.clinical, chart);
+});
+
+test('invalid workflow transitions return 400 without changing the saved revision', async t => {
+  const { handlers } = fixture(t);
+  const session = await open(handlers);
+  const before = session.data.version;
+  const response = await post(handlers, session.cookie, { version: before, action: 'workflow', payload: { action: 'result', payload: { id: 'ORD-100', value: '5.1' } } });
+  assert.equal(response.status, 400);
+  const after = (await open(handlers, session.cookie)).data;
+  assert.equal(after.version, before);
+  assert.equal(after.state.hospital.results.length, 0);
+});

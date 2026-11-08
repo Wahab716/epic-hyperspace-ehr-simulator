@@ -1,4 +1,4 @@
-/* global state, persist, action, render, toast */
+/* global state, persist, action, render, toast, patient */
 import { normalizeClinical } from './workspace-state.mjs';
 
 const status = document.getElementById('workspace-sync');
@@ -7,6 +7,20 @@ let version = null, workspaceId = null, dirty = false, changes = 0;
 let saving = false, conflict = false, ready = false, timer;
 const localPersist = persist;
 const localAction = action;
+const connected = document.createElement('aside'); connected.id = 'connected-training'; document.body.append(connected);
+function updateConnected(hospital) {
+  if (!hospital) return;
+  const open = connected.querySelector('details')?.open || false;
+  connected.replaceChildren();
+  const details = document.createElement('details'); details.open = open;
+  const summary = document.createElement('summary'); summary.textContent = 'Connected practice record'; details.append(summary);
+  const body = document.createElement('div');
+  const id = patient().mrn, person = hospital.patients.find(p => p.id === id);
+  for (const text of [person?.name || id, 'Practice role: ' + hospital.role, hospital.orders.filter(o => o.patient === id).length + ' orders', hospital.results.filter(r => r.patient === id && !r.reviewed).length + ' results awaiting review', ...hospital.notes.filter(n => n.patient === id).slice(-4).map(n => n.type + ' · ' + n.status), 'Sticky: ' + (hospital.sticky[id] || 'None')]) { const line = document.createElement('p'); line.textContent = text; body.append(line); }
+  const link = document.createElement('a'); link.href = '/?patient=' + encodeURIComponent(id) + '&view=Summary'; link.textContent = 'Open connected workflow';
+  link.onclick = event => { if (parent !== window) { event.preventDefault(); parent.postMessage({type:'training-open',patient:id},location.origin); } };
+  body.append(link); details.append(body); connected.append(details);
+}
 const snapshot = () => normalizeClinical(state);
 function metadata() { try { return JSON.parse(sessionStorage.getItem(metaKey) || '{}') || {}; } catch { return {}; } }
 function remember() {
@@ -41,13 +55,16 @@ async function request(method = 'GET', command) {
     const error = new Error(data.error || 'Workspace request failed');
     error.status = response.status; throw error;
   }
+  updateConnected(data.state?.hospital);
+  if (method === 'POST' && parent !== window) parent.postMessage({type:'training-updated'}, location.origin);
   return data;
 }
-function restore(clinical) {
+function restore(clinical, preserveView = false) {
+  const context = preserveView ? { view: state.view, tab: state.tab, patient: state.patient, side: state.side } : {};
   Object.assign(state, normalizeClinical(clinical), {
     view: 'list', tab: 'Summary', category: 'All', side: 'note',
     details: false, search: '', stickyOpen: false, localNote: null,
-    noteFilter: 'All Notes', selectedNote: 1,
+    noteFilter: 'All Notes', selectedNote: 1, ...context,
   });
   document.querySelector('.sticky')?.remove();
   document.getElementById('overlay').innerHTML = '';
@@ -78,7 +95,7 @@ async function flush() {
   } catch (error) { failed(error); }
   finally { saving = false; }
 }
-async function load(discard = false) {
+async function load(discard = false, preserveView = false) {
   if (saving) return;
   const app = document.getElementById('app');
   app.inert = true;
@@ -96,7 +113,7 @@ async function load(discard = false) {
     if (!discard && (unsaved || remote.state.clinical === null)) {
       dirty = true; changes++; remember(); await flush();
     } else {
-      restore(remote.state.clinical || {}); dirty = false; remember();
+      restore(remote.state.clinical || {}, preserveView); dirty = false; remember();
       show('Saved to this computer · revision ' + version);
     }
   } catch (error) { failed(error); }
@@ -119,4 +136,9 @@ action = function (command) {
     restore(result.state.clinical); remember(); show('Practice reset and saved · revision ' + version);
   }).catch(failed).finally(() => { saving = false; document.getElementById('app').inert = false; });
 };
+window.addEventListener('message', event => {
+  if (event.origin === location.origin && event.source === parent && event.data?.type === 'workspace-refresh' && !dirty && !saving) load(true, true);
+});
+const reportHeight = () => { if (parent !== window) parent.postMessage({type:'chart-height',height:Math.ceil(document.getElementById('app').getBoundingClientRect().height)},location.origin); };
+new ResizeObserver(reportHeight).observe(document.getElementById('app'));
 load();
