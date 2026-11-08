@@ -1,0 +1,6 @@
+CREATE TABLE IF NOT EXISTS workspaces (
+  owner TEXT PRIMARY KEY NOT NULL,
+  data TEXT NOT NULL,
+  version INTEGER NOT NULL DEFAULT 1,
+  updated_at TEXT NOT NULL
+);

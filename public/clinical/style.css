@@ -21,3 +21,10 @@ body{overflow:visible}
 .modal-wrap{overflow:auto;align-items:flex-start;padding:24px 12px}
 .modal{max-width:100%;margin:auto}
 
+
+/* Persistent workspace status stays visible without covering the chart footer. */
+body{padding-bottom:48px}
+#workspace-sync{position:fixed;bottom:0;left:0;right:0;z-index:200;background:#e9f5ed;border-top:1px solid #8cb49a;padding:8px 12px;min-height:40px;font:12px Arial,sans-serif;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+#workspace-sync[data-problem="true"]{background:#fff2d9;border-color:#c99c49}
+#workspace-sync button{font-size:12px}
+@media print{#workspace-sync{display:none}}

@@ -43,3 +43,7 @@ yarn-error.log*
 
 # OS metadata
 .DS_Store
+
+# Local workspace database and session keys
+/.data/
+!.env.example
