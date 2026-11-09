@@ -151,3 +151,25 @@ test('invalid workflow transitions return 400 without changing the saved revisio
   assert.equal(after.version, before);
   assert.equal(after.state.hospital.results.length, 0);
 });
+
+test('IT support actions persist with sanitized case metadata and unchanged clinical notes', async t => {
+  const { handlers } = fixture(t);
+  const session = await open(handlers);
+  assert.equal(session.data.cases.length, 20);
+  assert.ok(session.data.cases.every(c => !Object.hasOwn(c, 'fix')));
+  let current = session.data;
+  const send = async (action, payload) => {
+    const response = await post(handlers, session.cookie, { version: current.version, action: 'workflow', payload: { action, payload } });
+    assert.equal(response.status, 200);
+    current = await response.json();
+  };
+  await send('role', { role: 'Help Desk' });
+  await send('ticketContext', { id: 'INC-1001', impact: 'Caller cannot complete sign-in.', scope: 'U-1 on two practice workstations.', hypothesis: 'The account is locked after failed attempts.', assignee: 'Practice service desk' });
+  for (const source of ['Caller','Logs','Configuration']) await send('evidence', { id: 'INC-1001', source });
+  await send('fix', { id: 'INC-1001', choice: 'Unlock verified account' }); await send('verifyTicket', { id: 'INC-1001' });
+  const loaded = (await open(handlers, session.cookie)).data;
+  assert.equal(loaded.state.hospital.users[0].status, 'Active');
+  assert.equal(loaded.state.hospital.tickets[0].verified, true);
+  assert.equal(loaded.state.hospital.notes.length, 0);
+  assert.ok(loaded.state.hospital.audit.some(entry => entry.action === 'fix'));
+});

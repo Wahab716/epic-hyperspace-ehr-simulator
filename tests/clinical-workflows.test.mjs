@@ -132,10 +132,10 @@ test('commit-4 chart notes and stickies import without losing their original cop
   assert.equal(importChart(updated, chartFromHospital(chart, updated)).notes.filter(n => n.id === note.id).length, 1);
 });
 
-test('nonclinical actions stay unavailable until their milestones', () => {
+test('later analytics actions stay unavailable until their milestones', () => {
   const p = practice();
-  assert.throws(() => p.act('role', { role: 'Application Analyst' }), /clinical practice role/);
-  assert.throws(() => p.act('fix', { id: 'INC-1001' }), /not available/);
+  assert.throws(() => p.act('role', { role: 'Reporting Analyst' }), /available practice role/);
+  assert.throws(() => p.act('queryHistory', { sql: 'SELECT 1' }), /not available/);
 });
 
 test('an unreviewed critical result blocks an otherwise complete discharge', () => {
