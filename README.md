@@ -3,7 +3,7 @@ An Epic Hyperspace-inspired EHR training simulator featuring clinical workflows,
 
 ## Current status
 
-Clinical workflows and IT support now run alongside the original chart workspace. Open http://localhost:3000 and use the Clinical navigation tabs. The practice-role selector enables educational handoffs between Registrar, Nurse, Resident, Attending, Help Desk, Application Analyst, and Access Administrator; the server validates each workflow action for the selected role.
+Clinical workflows, IT support, and a SQLite analytics workbench now run alongside the original chart workspace. Open http://localhost:3000 and use the Clinical navigation tabs. The practice-role selector enables educational handoffs between Registrar, Nurse, Resident, Attending, Help Desk, Application Analyst, Access Administrator, and Reporting Analyst; the server validates each workflow action for the selected role.
 
 - **Patients:** register fictional records, search by name/MRN/DOB, select patients, and update demographics. Duplicate and invalid/future birth dates are rejected.
 - **Appointments:** schedule and reschedule, check in, cancel, mark no-show, or complete a visit. Check-in creates an encounter; cancellation preserves its history.
@@ -27,7 +27,19 @@ Select **IT Support**, then choose **Help Desk** or **Application Analyst** from
 - **Changes:** propose scoped configuration changes, record Positive/Negative/Permission/Regression evidence, obtain **Attending** approval, release as **Application Analyst**, and roll back with a recorded reason. Required-field and order-catalog changes affect the connected clinical workflows.
 - **Knowledge base / Audit:** read investigation and validation guidance, and inspect the actor/action history of saved practice mutations.
 
-Existing incident state, clinical records, and chart annotations stay in the same SQLite workspace. No reset is needed when updating from commit 5. SQL analytics and reporting interfaces remain later milestones, although some support cases use simulated reporting conditions as investigation evidence.
+Existing incident state, clinical records, and chart annotations stay in the same SQLite workspace. No reset is needed when updating. Some support cases use simulated reporting conditions as investigation evidence; SQL investigation is now available in Analytics.
+
+## SQLite analytics practice
+
+Select **Analytics → SQL workspace**, switch to **Reporting Analyst** (or **Application Analyst**), and click **Refresh SQL snapshot**. Refresh copies the current synthetic clinical/support records into a reporting extract; source changes do not appear until the next refresh.
+
+The workbench runs actual SQLite in a browser worker using the bundled SQL.js JavaScript/WASM files. No CDN or additional npm dependency is needed. The synthetic schema includes empty tables and explicit column types. Queries are restricted to one read-only `SELECT`, `WITH`, or `EXPLAIN QUERY PLAN` statement, with a 2,000-row result limit and a five-second worker timeout. Running SQL does not modify the clinical source records or the local workspace database.
+
+Fifteen exercises cover filtering, joins, distinct counts, null handling, outer joins, conditional totals, CTEs, window functions, corrected results, duplicate message controls, missing results, join multiplication, query plans, and reference populations. **Check exercise** compares results on the current extract, two variations, and an empty dataset. Assessment is inspectable client-side self-practice, not a secure examination.
+
+Query history, named saved queries, and practice progress persist in the session's database workspace. **Export CSV** preserves ordered column names (including duplicates), empty-result headers, and quoted values. The privacy scenario disables SQL CSV export even if identifiers are aliased. Schema browsing and query execution remain available.
+
+Existing clinical and support records are preserved when updating from commit 6. The analytics workbench reuses the same session and version checks. Reporting dashboards, report definitions, extraction-failure controls, and background jobs are the next milestone.
 
 ## Updating from the previous milestone
 
@@ -60,12 +72,13 @@ npm start
 
 ## Project structure
 
-- `app/`: clinical and IT support navigation, workflow forms, and workspace API route.
+- `app/`: clinical, support, and analytics navigation, workflow forms, and workspace API route.
 - `lib/workspace/`: SQLite adapter, session authentication, versioned API service, and clinical workflow boundary.
 - `lib/training/`: the supplied simulator’s shared domain foundation and reference fixtures.
 - `db/`: table schema and idempotent SQL migration.
 - `public/clinical/`: clinical workspace HTML, JavaScript, and styles.
-- `public/`: other static assets.
+- `public/`: SQLite worker, exercise catalog, CSV helpers, and other static assets.
+- `public/vendor/`: bundled SQL.js engine, WASM binary, and license.
 - `tests/`: chart rendering, authoring, API validation, session isolation, conflict handling, and database persistence checks.
 - `vendor/`: third-party styles and their license.
 
@@ -75,9 +88,9 @@ This is an independent educational project using fictional records. It is not af
 
 ## Workspace API and hosting
 
-`GET /api/workspace` returns the current session's workspace, version, and opaque workspace identifier. `POST /api/workspace` accepts `{version, action, payload}`. This milestone supports validated `clinical` snapshots, explicit `reset`, and `workflow` commands with `{action, payload}`. Clinical and IT support practice roles/actions are exposed. Reporting/SQL and guided-training actions remain unavailable until their milestones. Snapshot writes use an atomic version comparison, returning HTTP 409 for stale updates. Invalid snapshots do not partially update stored records. Successful writes increment the version.
+`GET /api/workspace` returns the current session's workspace, version, and opaque workspace identifier. `POST /api/workspace` accepts `{version, action, payload}`. This milestone supports validated `clinical` snapshots, explicit `reset`, and `workflow` commands with `{action, payload}`. Clinical, IT support, and SQL practice roles/actions are exposed. Reporting jobs and guided-training actions remain unavailable until their milestones. Snapshot writes use an atomic version comparison, returning HTTP 409 for stale updates. Invalid snapshots do not partially update stored records. Successful writes increment the version.
 
-Local SQLite is a Node runtime storage adapter for running this repository with npm. The table layout follows the supplied simulator's owner/data/version/updated-at schema. The connected hospital is stored alongside the preserved chart snapshot in the same versioned workspace row. Shared domain modules are carried forward from the supplied complete simulator; SQL, reporting, and guided-training interfaces arrive in later milestones.
+Local SQLite is a Node runtime storage adapter for running this repository with npm. The table layout follows the supplied simulator's owner/data/version/updated-at schema. The connected hospital is stored alongside the preserved chart snapshot in the same versioned workspace row. Shared domain modules are carried forward from the supplied complete simulator; Reporting dashboards/jobs and guided-training interfaces arrive in later milestones.
 
 For a trusted reverse proxy, set `WORKSPACE_AUTH_MODE=trusted-proxy` and a strong `WORKSPACE_PROXY_SECRET`. The proxy must strip incoming identity/secret headers, authenticate visitors, and inject `oai-authenticated-user-id` plus `x-workspace-proxy-secret`. Requests without the matching shared secret and identity are rejected. Direct client-provided identity headers are never accepted in local mode. The repository does not provide an external identity provider or proxy deployment.
 

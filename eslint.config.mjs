@@ -7,12 +7,17 @@ const eslintConfig = defineConfig([
   ...nextTs,
   globalIgnores([
     "dist/**",
+    "public/vendor/**", // Bundled upstream SQL.js engine; retain verbatim with its license.
     ".vinext/**",
     ".wrangler/**",
     ".sites-runtime/**",
     "outputs/**",
     "work/**",
   ]),
+  {
+    files: ["public/sql-catalog.js"],
+    rules: { "@typescript-eslint/no-unused-vars": "off" }, // Globals consumed by importScripts in the SQL worker.
+  },
   {
     files: ["components/ui/**/*.{ts,tsx}", "hooks/use-mobile.ts"],
     rules: {

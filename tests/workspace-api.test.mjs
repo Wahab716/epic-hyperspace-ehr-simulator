@@ -173,3 +173,23 @@ test('IT support actions persist with sanitized case metadata and unchanged clin
   assert.equal(loaded.state.hospital.notes.length, 0);
   assert.ok(loaded.state.hospital.audit.some(entry => entry.action === 'fix'));
 });
+
+test('SQL metadata and saved queries persist without changing clinical source records', async t => {
+  const { handlers } = fixture(t); const session = await open(handlers);
+  assert.equal(session.data.exercises.length, 15);
+  assert.ok(session.data.exercises.every(ex => !Object.hasOwn(ex, 'solution')));
+  assert.ok(session.data.schema.results);
+  let current = session.data;
+  const send = async (action, payload) => {
+    const response = await post(handlers, session.cookie, { version: current.version, action: 'workflow', payload: { action, payload } });
+    assert.equal(response.status, 200); current = await response.json();
+  };
+  const source = JSON.stringify(current.state.hospital.patients);
+  await send('role', { role: 'Reporting Analyst' }); await send('refresh');
+  await send('saveQuery', { name: 'Patient count', sql: 'SELECT COUNT(*) FROM patients' });
+  await send('queryHistory', { sql: 'SELECT COUNT(*) FROM patients', outcome: 'Returned 1 rows' });
+  const saved = (await open(handlers, session.cookie)).data;
+  assert.equal(saved.state.hospital.queries[0].name, 'Patient count');
+  assert.equal(saved.state.hospital.queryHistory.length, 1);
+  assert.equal(JSON.stringify(saved.state.hospital.patients), source);
+});
