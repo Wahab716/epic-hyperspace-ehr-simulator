@@ -39,7 +39,7 @@ Fifteen exercises cover filtering, joins, distinct counts, null handling, outer 
 
 Query history, named saved queries, and practice progress persist in the session's database workspace. **Export CSV** preserves ordered column names (including duplicates), empty-result headers, and quoted values. The privacy scenario disables SQL CSV export even if identifiers are aliased. Schema browsing and query execution remain available.
 
-Existing clinical and support records are preserved when updating from commit 6. The analytics workbench reuses the same session and version checks. Reporting dashboards, report definitions, extraction-failure controls, and background jobs are the next milestone.
+Existing clinical and support records are preserved when updating from commit 6. The analytics workbench reuses the same session and version checks. Reporting dashboards, report definitions, extraction-failure controls, and background jobs are available in the other Analytics tabs.
 
 ## Updating from the previous milestone
 
@@ -88,10 +88,28 @@ This is an independent educational project using fictional records. It is not af
 
 ## Workspace API and hosting
 
-`GET /api/workspace` returns the current session's workspace, version, and opaque workspace identifier. `POST /api/workspace` accepts `{version, action, payload}`. This milestone supports validated `clinical` snapshots, explicit `reset`, and `workflow` commands with `{action, payload}`. Clinical, IT support, and SQL practice roles/actions are exposed. Reporting jobs and guided-training actions remain unavailable until their milestones. Snapshot writes use an atomic version comparison, returning HTTP 409 for stale updates. Invalid snapshots do not partially update stored records. Successful writes increment the version.
+`GET /api/workspace` returns the current session's workspace, version, and opaque workspace identifier. `POST /api/workspace` accepts `{version, action, payload}`. This milestone supports validated `clinical` snapshots, explicit `reset`, and `workflow` commands with `{action, payload}`. Clinical, IT support, and SQL practice roles/actions are exposed. Reporting jobs are available; guided-training actions remain for a later milestone. Snapshot writes use an atomic version comparison, returning HTTP 409 for stale updates. Invalid snapshots do not partially update stored records. Successful writes increment the version.
 
-Local SQLite is a Node runtime storage adapter for running this repository with npm. The table layout follows the supplied simulator's owner/data/version/updated-at schema. The connected hospital is stored alongside the preserved chart snapshot in the same versioned workspace row. Shared domain modules are carried forward from the supplied complete simulator; Reporting dashboards/jobs and guided-training interfaces arrive in later milestones.
+Local SQLite is a Node runtime storage adapter for running this repository with npm. The table layout follows the supplied simulator's owner/data/version/updated-at schema. The connected hospital is stored alongside the preserved chart snapshot in the same versioned workspace row. Shared domain modules are carried forward from the supplied complete simulator; Reporting dashboards/jobs are connected; guided-training interfaces arrive in a later milestone.
 
 For a trusted reverse proxy, set `WORKSPACE_AUTH_MODE=trusted-proxy` and a strong `WORKSPACE_PROXY_SECRET`. The proxy must strip incoming identity/secret headers, authenticate visitors, and inject `oai-authenticated-user-id` plus `x-workspace-proxy-secret`. Requests without the matching shared secret and identity are rejected. Direct client-provided identity headers are never accepted in local mode. The repository does not provide an external identity provider or proxy deployment.
 
 Optional server environment settings are described in `.env.example`. Use a writable persistent volume for `WORKSPACE_DATA_DIR` if hosting this Node server. The default local SQLite adapter requires a filesystem and is not a Cloudflare Worker/D1 adapter. Local database/session files and environment secrets must remain outside Git.
+
+## Reporting and background jobs (8/10)
+
+Select **Analytics → Reports** as **Reporting Analyst** or **Application Analyst**. Eleven aggregate reports show their counting grain, population, source, extract, and cached totals. Metrics cover all dates; there is no implicit daily timezone filter. **Data pipeline** compares source/staging/extract counts, content equality, duplicate IDs, warehouse encounter facts, department dimensions, and load history. Audit and load-run tables are omitted from reconciliation because the load itself adds history entries.
+
+Choose a simulated failure, then refresh or queue a load. Failed extraction preserves the last successful stages. Partial/late results, duplicate encounters, missing departments, changed mappings, shifted timestamps, and stale caches remain inspectable and are marked **Validation required**. This is a training pipeline; validation anomalies are deliberately visible in the loaded extract. Select **None** and rerun to recover. No failure injection changes clinical source data.
+
+In **Background jobs**, queue a load, process it manually, or enable the hourly schedule. In a second terminal run:
+
+```sh
+npm run worker:reports
+```
+
+Keep that process running with the same `WORKSPACE_DATA_DIR` as the app. It checks persisted workspaces every five seconds without a browser. Opening/reloading the workspace also processes queued or due jobs as a fallback. An overdue schedule runs once and schedules the next load one hour later; it does not replay every missed hour. Failed jobs remain in history; queue another after fixing the failure. The worker restores the selected practice role and uses atomic version checks so concurrent clinical saves are preserved. Competing workers may calculate the same load, but only one version can be committed. This Node/SQLite runner does not provide a Cloudflare scheduled Worker adapter or operating-system service installation.
+
+Use **Reload saved workspace** after a worker finishes; a concurrent browser save can return 409 and requires reload before resubmission. Queue state and hourly settings survive process restarts. The worker must run under an account authorized to read the local synthetic workspace database.
+
+Commit message: `feat: add reporting and background jobs`

@@ -132,9 +132,9 @@ test('commit-4 chart notes and stickies import without losing their original cop
   assert.equal(importChart(updated, chartFromHospital(chart, updated)).notes.filter(n => n.id === note.id).length, 1);
 });
 
-test('later reporting jobs stay unavailable until their milestone', () => {
+test('clinical roles cannot run reporting jobs', () => {
   const p = practice();
-  assert.throws(() => p.act('queueJob', {}), /not available/);
+  assert.throws(() => p.act('queueJob', {}), /not allowed/);
   assert.throws(() => p.act('autoReporting', { enabled: true }), /not available/);
 });
 

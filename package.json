@@ -11,7 +11,8 @@
     "start": "next start --hostname 127.0.0.1",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "test": "node --test tests/*.test.mjs"
+    "test": "node --test tests/*.test.mjs",
+    "worker:reports": "node scripts/reporting-worker.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",

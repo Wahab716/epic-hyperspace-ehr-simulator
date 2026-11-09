@@ -26,11 +26,11 @@ test('extracts stay unchanged until explicitly refreshed after clinical edits', 
   assert.equal(s.pipeline.snapshot.patients.length, before + 1);
 });
 
-test('clinical-only roles cannot save SQL queries and later reporting jobs stay unavailable', () => {
+test('clinical-only roles cannot save SQL queries or queue reporting jobs', () => {
   const s = applyWorkflow(hospitalFor({ clinical: null }), 'role', { role: 'Nurse' });
   assert.throws(() => applyWorkflow(s, 'saveQuery', { name: 'Denied', sql: 'SELECT 1' }), /not allowed/);
   assert.throws(() => applyWorkflow(s, 'refresh'), /not allowed/);
-  assert.throws(() => applyWorkflow(s, 'queueJob'), /not available/);
+  assert.throws(() => applyWorkflow(s, 'queueJob'), /not allowed/);
 });
 
 test('CSV exports preserve duplicate columns, nulls, commas, quotes, newlines, and empty headers', () => {
