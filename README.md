@@ -93,3 +93,7 @@ See [docs/PRACTICE-GUIDE.md](docs/PRACTICE-GUIDE.md) for the role sequence, caps
 Production hosting needs a Node runtime and writable persistent filesystem. Configure a separate identity provider/reverse proxy for authenticated remote use: `WORKSPACE_AUTH_MODE=trusted-proxy`, a strong `WORKSPACE_PROXY_SECRET`, and a proxy that strips incoming identity/secret headers before injecting verified `oai-authenticated-user-id` and `x-workspace-proxy-secret`. Local mode does not trust client-supplied identity headers. The archive's original Cloudflare/D1 runtime is preserved for reference; it is not the active npm application's storage or deployment adapter. No automatic Cloudflare deployment or hosted scheduler is configured by this package.
 
 The dependency set and npm lockfile are retained from the milestone series. Licenses for bundled assets are preserved. This is an independent educational project, unaffiliated with Epic Systems. It demonstrates simulated practice, not Epic certification or production EHR experience. Do not enter real patient information.
+
+## Vercel temporary demo
+
+Vercel now uses writable `/tmp/epic-hyperspace` automatically and public signed-cookie demo sessions. Set a stable `WORKSPACE_SESSION_SECRET` in Vercel, use Node 24, and follow [VERCEL-FIX.md](VERCEL-FIX.md). Hosted practice data is ephemeral and can reset between instances or deployments; durable hosted storage still requires an external database. Local `.data` storage is unchanged.
