@@ -1,0 +1,310 @@
+{
+  ".env.example": {
+    "sha256": "b39af07374103a671612dbf65fefbce6f744859c6e883d7e7298de6c37058f95",
+    "bytes": 438
+  },
+  ".github/workflows/verify.yml": {
+    "sha256": "0db5cef73d4479cb7d1b081f0d2fe50778cebb979342e03e5b76baabadccd80c",
+    "bytes": 287
+  },
+  ".gitignore": {
+    "sha256": "d0562cd61271541e38fd25b7a4e2686fcdd2bea16103d6393ed11eb8c1ec7c15",
+    "bytes": 681
+  },
+  ".npmrc": {
+    "sha256": "882ef5306d2a338eaf3854011d117ee7190cf31920bf6cc2a1f195c4fd588d99",
+    "bytes": 67
+  },
+  "FINAL-VERIFICATION.md": {
+    "sha256": "c7d6042961d689b84f9eae8dac8eb05b50ff64b52431684f181e61e0522853a2",
+    "bytes": 2854
+  },
+  "MILESTONE-08.md": {
+    "sha256": "0a8186942a6a0db7023b378350a5b962754d67199873600c7a09a8e7371550d6",
+    "bytes": 1453
+  },
+  "MILESTONE-09.md": {
+    "sha256": "8e0eccc3f7d15cafcff14d460a960be7bc3d652364fbdd8f89fa1f054ad19751",
+    "bytes": 2296
+  },
+  "MILESTONE-10.md": {
+    "sha256": "1eeef3b39f269384ac900f93ec3d93045a25a6acea1aec908d3ed71fb7e65492",
+    "bytes": 1712
+  },
+  "README.md": {
+    "sha256": "7c89ca3edc77527d1106e394615b63eb3b4e489f82270497bac4bd3186986c6c",
+    "bytes": 8044
+  },
+  "app/api/workspace/route.ts": {
+    "sha256": "ef1aa9b7717cd71c623481d6ccf4f7b0a95c9976b923de29088c5fd668357e66",
+    "bytes": 457
+  },
+  "app/components/AnalyticsPanels.jsx": {
+    "sha256": "0e09245a0150e5146cc221d1bd8465be917a842ab0092243af3442f1394b07cd",
+    "bytes": 5311
+  },
+  "app/components/ClinicalPanels.jsx": {
+    "sha256": "f48b33593d593ec2f47027f4ddff9fd9a53d6ffdf8995cfac0869e171975edf7",
+    "bytes": 4411
+  },
+  "app/components/ClinicalWorkspace.jsx": {
+    "sha256": "5bebe4747e01886503b4e707cb55ab0290b9b578ac53d5d9db0b99de7ae4ab87",
+    "bytes": 14164
+  },
+  "app/components/ReportingPanels.jsx": {
+    "sha256": "793e2806a09a899b6c15c81280955fa84e145d3504a840391eae1138e1a22376",
+    "bytes": 5690
+  },
+  "app/components/SupportPanels.jsx": {
+    "sha256": "848036b63d167a6a4d039ad08b5d97335edc94020ffef96eb8bad3c845d2ea0f",
+    "bytes": 11812
+  },
+  "app/components/TrainingPanels.jsx": {
+    "sha256": "64e99d56f20775cab08904a235454231916129efde957258eb96c9182f5b4acd",
+    "bytes": 6784
+  },
+  "app/globals.css": {
+    "sha256": "dd20127c75d7cee5031e3ce53499e8c24addc73e14e7b3459064de9ce3f0ed2b",
+    "bytes": 5743
+  },
+  "app/layout.tsx": {
+    "sha256": "7a81f2063dc3b14c5202fa6d6d71fda0e0d2b375a0c3fca7b99cc810a0f1937f",
+    "bytes": 382
+  },
+  "app/page.tsx": {
+    "sha256": "22154fbaa74603a9cba174755c465911493325b838aa0def98a05ab42c7f1779",
+    "bytes": 130
+  },
+  "db/migrations/0001_workspaces.sql": {
+    "sha256": "f3346f29973783d00ba1a2a79ea5e189eb80c8d100037414e148ba928d4ccedb",
+    "bytes": 165
+  },
+  "db/schema.ts": {
+    "sha256": "f696ab422dae0f2a2c9d715cdb400ad712dc068b60bcafe11294e58456b168f9",
+    "bytes": 267
+  },
+  "docs/PRACTICE-GUIDE.md": {
+    "sha256": "19b3a4b418052d76bd78af29754ac7020a4fdbd8b2f063eee064b6b455188a7c",
+    "bytes": 6101
+  },
+  "docs/SOURCE-RECONCILIATION.md": {
+    "sha256": "3456ea9ac17ab7080730872144236eb9b3fb06e812062fd8221ae3930ea576b4",
+    "bytes": 3802
+  },
+  "eslint.config.mjs": {
+    "sha256": "597acf3014e5d659ed0c6014242bb0641e59302f782e292fd15713006d273ac2",
+    "bytes": 1046
+  },
+  "lib/training/assessment.mjs": {
+    "sha256": "d92a06986155b067b15a0bc86d5708d2018e6f86a1c3b0acdd445294cf3df33e",
+    "bytes": 1663
+  },
+  "lib/training/catalog.mjs": {
+    "sha256": "fde3fad2891e7ae1def0a6c6b0c3f9a83ac81c07b8323b59e56aa4ddb2683308",
+    "bytes": 14209
+  },
+  "lib/training/chart.mjs": {
+    "sha256": "8c4ae720102b01386ec0b90525645fa337d8ace8ea4b4c78d33d66506e870044",
+    "bytes": 5911
+  },
+  "lib/training/domain.mjs": {
+    "sha256": "d4fcfbe3e35002d6a26d1597260c3948a14107445691b036ef6b921eedfb298b",
+    "bytes": 28013
+  },
+  "lib/training/historical.mjs": {
+    "sha256": "bbe34f32fa381633c0fb85364857379f3a1aea91725fdbab766161b7dacbf295",
+    "bytes": 3286
+  },
+  "lib/training/legacy-domain.mjs": {
+    "sha256": "95e8e3dde90b9b4f7a7bc5fd7af37c723ddad49044955478262243707f10ce5e",
+    "bytes": 10483
+  },
+  "lib/training/reference-data.mjs": {
+    "sha256": "697465ce30edef66d30d5a2725b2f5ce81f51792fa64a5efb895a4e7bf4d3b39",
+    "bytes": 2317
+  },
+  "lib/training/reference-document.mjs": {
+    "sha256": "22661766ed6a4c74479cfe247bacf4f5b83af92b68e6d57e8e4f8677897fc0ca",
+    "bytes": 1612
+  },
+  "lib/training/report-metadata.mjs": {
+    "sha256": "ba2124453ed3a305782e44b1a8b759f65f0b6ca3b8e152e7ab4d6fc84053a594",
+    "bytes": 2003
+  },
+  "lib/training/reports.mjs": {
+    "sha256": "5eabd6ec3f8fd363e64e950481f66ca7ffc5dae4325f226d3d2cb2d0e78ae1ee",
+    "bytes": 1858
+  },
+  "lib/workspace/auth.mjs": {
+    "sha256": "376f645e95274fece88269b64960d59d1a1d080d6516aef8f4a902595bc41273",
+    "bytes": 2806
+  },
+  "lib/workspace/jobs.mjs": {
+    "sha256": "ad372a1e7bbb33d2cfd540fd35b8b17f05f3ec789d470aadd072f42a309938cf",
+    "bytes": 1022
+  },
+  "lib/workspace/reporting.mjs": {
+    "sha256": "41f1249c0d5943b5cc0468cf37879f661fda25ed50b38cec997586a06b29ef02",
+    "bytes": 3611
+  },
+  "lib/workspace/service.mjs": {
+    "sha256": "9fdebef8bcce6341e9f1b6eba2360e6cc2de9207e39db82f63bb550172c5cc03",
+    "bytes": 5511
+  },
+  "lib/workspace/store.mjs": {
+    "sha256": "e0ea0735f472c5e5fc2c637b70c5ffc9c5bd0520e60c70c971078ba8b5213514",
+    "bytes": 1591
+  },
+  "lib/workspace/training.mjs": {
+    "sha256": "c13b2b0d66e1f228d3d9e9c8a67aa01010b8b54793eadad8c4941eb2462c3159",
+    "bytes": 9366
+  },
+  "lib/workspace/workflows.mjs": {
+    "sha256": "a37587cfc9d8daa00ea599632eedb23715be68960daf74bb6df85617959946a4",
+    "bytes": 9610
+  },
+  "next-env.d.ts": {
+    "sha256": "1862ac4bbbc5192d4bf562161df66ea547ed3e67173100656ab606ae9797db2b",
+    "bytes": 288
+  },
+  "next.config.ts": {
+    "sha256": "5c4982ad90d0713b3b5d875cca8915dc6851600a17ce24a8457b813e4178ca94",
+    "bytes": 162
+  },
+  "package-lock.json": {
+    "sha256": "44684ba9ac20b01dc5d4287ddb3959d90c12bbf929dacd8087dfbd025a48136a",
+    "bytes": 460598
+  },
+  "package.json": {
+    "sha256": "07bdf8e1782e519e56ccf5f617a244a32071b4ca31868c69535739712191c68d",
+    "bytes": 1996
+  },
+  "postcss.config.mjs": {
+    "sha256": "dfac7ac2d86d326a0e5adb024e7943c181393ed17a5fcb8f0315b24c7da6ddde",
+    "bytes": 94
+  },
+  "public/clinical/app.js": {
+    "sha256": "6a1f664fb46f0d0f86fd9f9ab70651f65d7e45c14c4eb7d4713d0c4965b4b32d",
+    "bytes": 48491
+  },
+  "public/clinical/index.html": {
+    "sha256": "be77ec1c4276f54deb19732a672fa813033a802b2723f1975cacba9cd30d57b0",
+    "bytes": 564
+  },
+  "public/clinical/style.css": {
+    "sha256": "eceae6a82b33d076fc9344768c27e7da38380d2e7df5e9475c0199f5efdad4a9",
+    "bytes": 13499
+  },
+  "public/clinical/workspace-state.mjs": {
+    "sha256": "9f945b652789d6ec8e8f39242fda38b1b9e49d2d32ef731de1c5e9c0e34ddb39",
+    "bytes": 3189
+  },
+  "public/clinical/workspace-sync.js": {
+    "sha256": "58769392f59bdf5930be9d3a717f56b10571cd61b03b830a619ee03939b4f536",
+    "bytes": 7651
+  },
+  "public/favicon.svg": {
+    "sha256": "e6d2e59b7b5bbb0342e0fb496dfc262decbfe4426bbb7b047aec8d467d1dc6f7",
+    "bytes": 712
+  },
+  "public/sql-catalog.js": {
+    "sha256": "f800da3b646ed06039ef48c41109e10256fff47b40de32980107c99dac8d65e3",
+    "bytes": 5399
+  },
+  "public/sql-results.mjs": {
+    "sha256": "77ba38b10e4a5b2ac50b2ebc0354e9e4561a9b11d3874c0afd4e09fd61cbaf27",
+    "bytes": 433
+  },
+  "public/sql-worker.js": {
+    "sha256": "6d1101a25e788a3f69917c762483e26a42e948d2b2842d82b78828677a9c6517",
+    "bytes": 2950
+  },
+  "public/vendor/LICENSE": {
+    "sha256": "60a3f6e4d7b29b4321359e683b36cf198d24f58e24582070f56e6fa89d5ee2be",
+    "bytes": 2199
+  },
+  "public/vendor/sql-wasm.js": {
+    "sha256": "694ca5b36aa3e6e71f417819d7df390b65343665fcfa5c69015ca33d93d291b3",
+    "bytes": 48788
+  },
+  "public/vendor/sql-wasm.wasm": {
+    "sha256": "0734155c83e493983d1f2ff5b09a4fab6e35a32e9449c7e4e545756439f62d73",
+    "bytes": 659806
+  },
+  "reference/README.md": {
+    "sha256": "5ee9453eaa5b50533ab225ad2735ca2e0fdcafdc76359e1b2e70198bdf2ec25c",
+    "bytes": 612
+  },
+  "reference/original-source-inventory.json": {
+    "sha256": "4c6de0b4f9976336cffcad9e9bf419f46296bb0653797f7d1c67784f94eab185",
+    "bytes": 28765
+  },
+  "reference/original-source-reference.zip": {
+    "sha256": "96788ae7eb5e54fde7fcfcd973f5b5ac7c136e6b5dbc47b458d449a882089f53",
+    "bytes": 681543
+  },
+  "scripts/reporting-worker.mjs": {
+    "sha256": "628fa11614801801c41365760e17e1e61686b92165079d8573e22c65e43ab742",
+    "bytes": 619
+  },
+  "tests/analytics-workflows.test.mjs": {
+    "sha256": "f7e7b8d9b5b826ab9f24ad8c3284efad9bfe61d4d7c545d94f5e79c4b70032b6",
+    "bytes": 2722
+  },
+  "tests/clinical-interactions.test.mjs": {
+    "sha256": "8bed73c269ce598d110c5731762e6f121b6ce77e2a2862d01076596f3757f4fb",
+    "bytes": 5274
+  },
+  "tests/clinical-layout.test.mjs": {
+    "sha256": "dd7084aeffefb4a712c96d44cf35da0b215cfb6ed7e513fc92e1b62c51a62e2f",
+    "bytes": 1992
+  },
+  "tests/clinical-workflows.test.mjs": {
+    "sha256": "e2e091be32c350fd75dffb3699800f2d73ef73166571278e9612cb764bc09a42",
+    "bytes": 11724
+  },
+  "tests/detailed-reports.test.mjs": {
+    "sha256": "7239b3ea343403ad4165ab3c2af35067c4cd0e8934b24b92c0e11ac85823484e",
+    "bytes": 2537
+  },
+  "tests/final-integration.test.mjs": {
+    "sha256": "2c58e14216550d7a74673f76afcbc04fd262aacd317704ef0d4a1d2cfa81b5a8",
+    "bytes": 2720
+  },
+  "tests/helpers/clinical-workspace.mjs": {
+    "sha256": "31aa18f6d3ce607d1d13a4bca7e9ba6a0d9de28cfdef0c3cf6ea8303333879c6",
+    "bytes": 1607
+  },
+  "tests/it-support.test.mjs": {
+    "sha256": "1aa50f907245abde763e32f0249feeda24b131957fb6f4f6b89dd98811540737",
+    "bytes": 9287
+  },
+  "tests/reporting.test.mjs": {
+    "sha256": "648047489e79b708b9b5214880eb9a22b997b95fdc76bb8e16c03fdaf0876d12",
+    "bytes": 4424
+  },
+  "tests/sql.test.mjs": {
+    "sha256": "aa8e310f4951d8ade25ec12fe46723766171de18a3ca26e2a30a14633eaf8e65",
+    "bytes": 2319
+  },
+  "tests/training.test.mjs": {
+    "sha256": "a4c2ed80306ea57f93609b69b21045363cbac0a7258883070d841aac512d828b",
+    "bytes": 7178
+  },
+  "tests/workspace-api.test.mjs": {
+    "sha256": "1fed8e26202cc5cc1af8c1cc851bde3d7fd80bf6eae87e792de94fc4621fce66",
+    "bytes": 11298
+  },
+  "tsconfig.json": {
+    "sha256": "a4c1cc83b63ef9d39641d3babaefffa063dccbbc93338e18017b5013d713163e",
+    "bytes": 893
+  },
+  "vendor/shadcn-tailwind-4.13.0.LICENSE.md": {
+    "sha256": "1564074e13439397221ffd522e2e504d56561994a23d371aa5e3ad43e4f5423f",
+    "bytes": 1063
+  },
+  "vendor/shadcn-tailwind-4.13.0.css": {
+    "sha256": "bc7d83425702955b4cb67cb14ede9d603f9d912376d57a2d81d661094d2a782a",
+    "bytes": 16041
+  }
+}

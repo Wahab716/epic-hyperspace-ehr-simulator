@@ -12,7 +12,8 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test": "node --test tests/*.test.mjs",
-    "worker:reports": "node scripts/reporting-worker.mjs"
+    "worker:reports": "node scripts/reporting-worker.mjs",
+    "verify": "npm test && npm run typecheck && npm run lint && npm run build"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",
